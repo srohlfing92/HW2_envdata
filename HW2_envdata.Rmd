@@ -1,0 +1,68 @@
+---
+title: "HW2-power use of 4 types of cars"
+author: "Sarah Rohlfing"
+date: "2023-03-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(purrr)
+library(ggpubr)
+```
+
+```{r}
+#create a data frame for the 4 cars
+cars = data.frame(name = c("a", "b", "c", "d"), weight = c(20000, 65000, 38000, 5000), surface_area = c(22, 30, 22, 10))
+#create a sample of the cars in the data frame with a mean speed of 80km/hr and a standard deviation of 10 km/hr
+nsample = 200
+mean_speed = log(80*0.277) #convert into m/s
+
+#find the mean speed for each car type
+speeds = rlnorm(mean=mean_speed, sd=0.125*mean_speed, nsample) # sample population of car speeds
+summary(speeds)
+
+#use pmap to loop while using the autopower function to find the power used for each car type sample 
+powerall_pmap = pmap(list(A = cars$surface_area, m= cars$weight), autopower, V=speeds)
+#put results into a data frame where each column name is now the car name (a, b, c, d) to see the results of the autopower function. 
+powerall_pmap = as.data.frame(powerall_pmap, col.names=cars$name)
+
+#change table direction so there are two columns, making it easier to graph rather than 4 columns
+powerall_pmap_pivot = powerall_pmap %>% pivot_longer(cols=everything(), names_to="car", values_to="power")
+
+#plot the pmap results as a box plot 
+pmap_plot = ggplot(powerall_pmap_pivot, aes(car,power,fill=car))+
+  geom_boxplot()+
+  ggtitle("Pmap looping results")
+pmap_plot
+
+```
+
+```{r}
+nsample = 200
+mean_speed = log(80*0.277)
+
+#find the mean speed for each car type
+speeds = rlnorm(mean=mean_speed, sd=0.125*mean_speed, nsample)
+
+#create data frame without sample values
+powerall_for = as.data.frame(matrix(nrow=length(speeds), ncol=nrow(cars)))
+
+#create data set from sample speeds to fill in the data frame "powerall_for" through looping
+for (i in 1:nrow(cars)) {
+  powerall_for[,i] = autopower(A=cars$surface_area[i], m=cars$weight[i], V=speeds)
+}
+#create a pivot table to more easily graph results
+colnames(powerall_for)=cars$name
+
+powerall_for_pivot = powerall_for %>% pivot_longer(cols=everything(), names_to="car", values_to="power")
+
+#create a ggplot boxplot to see results from "for" looping
+for_plot = ggplot(powerall_for_pivot, aes(car,power,fill=car))+
+  geom_boxplot()+
+  ggtitle("For looping results")
+for_plot
+```
+
