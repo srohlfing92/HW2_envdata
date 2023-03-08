@@ -11,7 +11,16 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(purrr)
 library(ggpubr)
+library(here)
 ```
+
+```{r}
+#used "here" to find the full pathway to the autopowerfunction
+here("R/autopower.R")
+#copied the file path to use with the source function
+source("C:/Users/lifec/Desktop/winter 23/HW2/hw2_envdata/R/autopower.R")
+```
+
 
 ```{r}
 #create a data frame for the 4 cars
