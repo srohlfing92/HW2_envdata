@@ -12,12 +12,12 @@ library(here)
 ```
 
 ```{r}
-fish_data <- ("https://raw.githubusercontent.com/naomitague/ESM_262_Examples/main/Data/fish.txt")
-fish <- read_csv(fish_data, show_col_types = FALSE)
+fish_data <- ("https://raw.githubusercontent.com/naomitague/ESM_262_Examples/main/Data/fish.txt") #source the text file
+fish <- read_csv(fish_data, show_col_types = FALSE) #read and turn text file into a table
 
-source("C:/Users/lifec/Desktop/winter 23/HW2/hw2_envdata/R/fishfunction.R", echo=TRUE)
+source("C:/Users/lifec/Desktop/winter 23/HW2/hw2_envdata/R/fishfunction.R", echo=TRUE) # source the function "fishfunction"
 
-fishfunction(name_list = fish)
+fishfunction(name_list = fish) #input the list of fish for the function to find common, rare, and total number of fish
 
 ```
 
