@@ -21,10 +21,8 @@ runoff_rates <- function(land_area, application_rate, precipitation){
   nutrient_conc = (application_rate*land_area)/2
 
   runoff_rate = (nutrient_conc*runoff_coeff*precipitation)/ 1000
-  
-  
+
   nitrogen_max = 0.98 
-  
   
   if (runoff_rate>nitrogen_max) {
     return(sprintf("Your runoff concentration is %s mg/L. Water Concentration exceeds maximum nitrogen standards", runoff_rate))
