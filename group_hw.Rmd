@@ -14,7 +14,8 @@ library(tidyverse)
 source("R/runoff_rates.R")
 
 
-runoff_rates(100, 50, 3)
+runoff_rates(100, 0, 4)
+
 
 ```
 

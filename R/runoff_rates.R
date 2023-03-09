@@ -28,6 +28,7 @@ runoff_rates <- function(land_area, application_rate, precipitation){
     return(sprintf("Your runoff concentration is %s mg/L. Water Concentration exceeds maximum nitrogen standards", runoff_rate))
   }
   if (precipitation == 0){return(sprintf("No rain, so no runoff, yay!"))}
+  if (application_rate==0){return(sprintf("No nitrogen applied, water is clean, yay!"))}
   
   else return("Your runoff concentration is %s mg/L. This is considered healthy given the EPA's water quality standards.")
 }
