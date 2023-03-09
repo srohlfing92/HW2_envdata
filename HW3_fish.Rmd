@@ -8,20 +8,18 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(here)
 ```
 
 ```{r}
-table(fish_file)
-common <- sort(table(fish_file), decreasing = TRUE)[1]
-rare <- sort(table(fish_file), increasing = TRUE)[1]
-n <- nrow(fish_file)
+fish_data <- ("https://raw.githubusercontent.com/naomitague/ESM_262_Examples/main/Data/fish.txt")
+fish <- read_csv(fish_data, show_col_types = FALSE)
+
+source("C:/Users/lifec/Desktop/winter 23/HW2/hw2_envdata/R/fishfunction.R", echo=TRUE)
+
+fishfunction(name_list = fish)
 
 ```
-```{r}
-fish_stats <- function(data.frame = fish_file){table(fish_file)
-common <- sort(table(fish_file), decreasing = TRUE)[1]
-rare <- sort(table(fish_file), increasing = TRUE)[1]
-n <- nrow(fish_file)
-return(common, rare, n)}
-```
+
+
 
