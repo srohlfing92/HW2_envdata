@@ -7,6 +7,8 @@ test_that("runoff_rates_works", {
 ## run test_file("../tests/test_computes_NPV.R)
 ## test_dir("../tests") # runs all tests in test folder
 
-ifelse(a == c(2,3), TRUE, FALSE)
-[1] TRUE TRUE
-> expect_equal(a, c(2,3))
+
+
+#ifelse(a == c(2,3), TRUE, FALSE)
+#[1] TRUE TRUE
+#> expect_equal(a, c(2,3))
