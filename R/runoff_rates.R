@@ -9,7 +9,7 @@
 #' @param application_rate kg Nitrogen/ha
 #' @param precipitaion rain (mL/24hr)
 #' @param catchment_area km^2
-#'  @param nitrogen_max  (mg/L) maximum nitrogen level in fresh water bodies by EPA
+#'  @param nitrogen_max  (mg/L) maximum nitrogen level in fresh water bodies by EPA (using NJ standards)
 #' 
 #'
 #' @return runoff concentration
@@ -22,15 +22,8 @@ runoff_rates <- function(land_area, application_rate, precipitation){
 
   runoff_rate = (nutrient_conc*runoff_coeff*precipitation)/ 1000
 
-  nitrogen_max = 0.98 
-  
-  if (runoff_rate>nitrogen_max) {
-    return(sprintf("Your runoff concentration is %s mg/L. Water Concentration exceeds maximum nitrogen standards", runoff_rate))
-  }
-  if (precipitation == 0){return(sprintf("No rain, so no runoff, yay!"))}
-  if (application_rate==0){return(sprintf("No nitrogen applied, water is clean, yay!"))}
-  
-  else return("Your runoff concentration is %s mg/L. This is considered healthy given the EPA's water quality standards.")
+  nitrogen_max = 2
+
   return(runoff_rate)
 
 }

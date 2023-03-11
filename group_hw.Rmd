@@ -9,13 +9,63 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(testthat)
 library(tidyverse)
-
+library(purrr)
 
 source("R/runoff_rates.R")
 
 
-runoff_rates(100, 0, 4)
+```
 
+```{r}
+#create a sample data set for fertilizer application rates
+nsample = 100
+fert_application = abs(rnorm(mean=50, sd=10, n=nsample))
+#create a sample data set for land_area
+nsample = 100
+land_area = abs(rnorm(mean=100, sd=100, n=nsample))
+#create a sample data set for precipitation (the mean and sd represents the average monthly rainfall in NJ)
+nsample = 100
+precipitation = abs(rnorm(mean=3, sd=1, n=nsample))
 
+#place all the sample data into a table
+results = data.frame(fert_application=fert_application, land_area = land_area, precipitation = precipitation, water_quality=NA)
+  
+#this function is included in the runoff function, but used it here to combine two input columns so nutrient concentration becomes its own column and can be used to graph the water quality results
+nutrient_conc = function(application_rate, land_area){
+  nutr_conc = (application_rate*land_area)/2
+  return(nutr_conc)
+}
+
+#use pmap to run through the data set and create a new column with the nutrient_conc function output 
+results$nutrient_concentration = pmap(list(land_area = results$land_area, application_rate = results$fert_application), nutrient_conc)
+
+#make the lists numeric so the results can be graphed
+results$nutrient_concentration <- as.numeric(unlist(results$nutrient_concentration))
+
+#use pmap to run through the data set and create a new column with the runoff_rates function output
+results$water_quality = pmap(list(land_area = results$land_area, application_rate = results$fert_application, precipitation = results$precipitation), runoff_rates)
+
+#make the lists numeric so the results can be graphed
+results$water_quality <- as.numeric(unlist(results$water_quality))
+
+#graph results with the NJ EPA water quality parameter as a dotted red line
+ggplot(results, aes(x = nutrient_concentration, y = water_quality))+
+  geom_point()+labs(x="nutrient concentration on farm land (mg/L)", y="runoff water quality", title = "Runoff water quality based on monthly sample rain events in NJ")+
+ geom_hline(yintercept=2, linetype="dashed", 
+                color = "red", size=.5)
+
+```
+
+```{r}
+
+# nitrogen_max = 2 
+
+# if (runoff_rate>nitrogen_max) {
+#    return(sprintf("Your runoff concentration is %s mg/L. Water Concentration exceeds maximum nitrogen standards", runoff_rate))
+#  }
+#  if (precipitation == 0){return(sprintf("No rain, so no runoff, yay!"))}
+#  if (application_rate==0){return(sprintf("No nitrogen applied, water is clean, yay!"))}
+  
+#  else return("Your runoff concentration is %s mg/L. This is considered healthy given the EPA's water quality standards.")
 ```
 
