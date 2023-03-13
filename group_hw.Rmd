@@ -1,6 +1,6 @@
 ---
 title: "HW_group_work"
-author: "Sarah Rohlfing"
+author: "Sarah Rohlfing and Grace Bianchi"
 date: "2023-03-09"
 output: html_document
 ---
