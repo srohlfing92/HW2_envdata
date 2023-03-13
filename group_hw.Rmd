@@ -12,8 +12,6 @@ library(tidyverse)
 library(purrr)
 
 source("R/runoff_rates.R")
-
-
 ```
 
 ```{r}

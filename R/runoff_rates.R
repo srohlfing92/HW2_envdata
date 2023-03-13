@@ -9,7 +9,7 @@
 #' @param application_rate kg Nitrogen/ha
 #' @param precipitaion rain (mL/24hr)
 #' @param catchment_area km^2
-#'  @param nitrogen_max  (mg/L) maximum nitrogen level in fresh water bodies by EPA (using NJ standards)
+#' @param nitrogen_max  (mg/L) maximum nitrogen level in fresh water bodies by EPA (using NJ standards)
 #' 
 #'
 #' @return runoff concentration
