@@ -1,4 +1,4 @@
-#' Compute Fish Diversity in given data set
+#' Compute Nitrogen concentration in runoff in given data set
 #' 
 #' This function allows the user to input land area, fertlizer application rate, and precipitation and compute the estimated
 #' amount of water into the nearby waterbody and how run off impacts water quality.
@@ -20,8 +20,6 @@ runoff_rates <- function(land_area, application_rate, precipitation){
   nutrient_conc = (application_rate*land_area)/2
 
   runoff_rate = (nutrient_conc*runoff_coeff*precipitation)/ 1000
-
-  nitrogen_max = 2
 
   return(runoff_rate)
 
