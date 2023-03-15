@@ -1,7 +1,7 @@
 #' Compute Nitrogen concentration in runoff in given data set
 #' 
-#' This function allows the user to input land area, fertlizer application rate, and precipitation and compute the estimated
-#' amount of water into the nearby waterbody and how run off impacts water quality.
+#' This function computes the estimated amount fertilizer runoff for a given the land area, fertilizer application rate, and precipitation.
+#' 
 #' 
 #' @param runoff_coeff constant based on soil type 
 #' @param nutrient_conc concentration of nitrogen in land area (mg/L)
