@@ -16,9 +16,8 @@
 
 #' 
 runoff_rates <- function(land_area, application_rate, precipitation){
-  land_area[land_area < 1]  <- NA # return NA for land area smaller than 1 ha
-  
-  #land_area[land_area < 1] <- NA # remove any rows with areas less than 1
+  land_area[land_area < 1]  <- NA # return NA; error checking for land area smaller than 1 ha
+ 
   nutrient_conc = (application_rate*land_area)/ 2
   runoff_rate = (nutrient_conc*0.2*precipitation)/ 1000
 

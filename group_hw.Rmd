@@ -52,4 +52,8 @@ ggplot(results, aes(x = n_concentration, y = runoff_rate))+
 ```{r}
 test_dir("tests")
 ```
+```{r}
+#error checking in function works, returns NA
+runoff_rates(land_area=0, application_rate = 10, precipitation = 10)
+```
 
