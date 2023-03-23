@@ -15,42 +15,47 @@ source("R/runoff_rates.R")
 ```
 
 ```{r}
+## creating data frame
 #create a sample data set for fertilizer application rates
 nsample = 100
 fert_application = abs(rnorm(mean=50, sd=10, n=nsample))
 #create a sample data set for land_area
-nsample = 100
 land_area = abs(rnorm(mean=100, sd=100, n=nsample))
 #create a sample data set for precipitation (the mean and sd represents the average monthly rainfall in NJ)
-nsample = 100
 precipitation = abs(rnorm(mean=3, sd=1, n=nsample))
 
 #place all the sample data into a table
-results = data.frame(fert_application=fert_application, land_area = land_area, precipitation = precipitation, water_quality=NA)
-  
-#this function is included in the runoff function, but used it here to combine two input columns so nutrient concentration becomes its own column and can be used to graph the water quality results
-nutrient_conc = function(application_rate, land_area){
-  nutr_conc = (application_rate*land_area)/2
-  return(nutr_conc)
+results = data.frame(fert_application=fert_application, land_area = land_area, precipitation = precipitation, n_concentration=NA, runoff_rate=NA)
+```
+
+```{r}
+# loop to run the runoff equation for values in each row and output concentration and runoff rate
+for (i in 1:nrow(results)) {
+  fert_application=fert_application
+  land_area = land_area
+  precipitation = precipitation
+  outputs <- runoff_rates(land_area[i], fert_application[i], precipitation[i])
+  results$runoff_rate[i] <- outputs$runoff_rate
+  results$n_concentration[i] <-outputs$nutrient_conc
+
 }
 
-#use pmap to run through the data set and create a new column with the nutrient_conc function output 
-results$nutrient_concentration = pmap(list(land_area = results$land_area, application_rate = results$fert_application), nutrient_conc)
+#graph results with the NJ EPA water quality parameter as a dotted red line
+ggplot(results, aes(x = n_concentration, y = runoff_rate))+
+  geom_point()+labs(x="nutrient concentration on farm land (mg/L)", y="runoff water quality", title = "Runoff water quality based on monthly sample rain events in NJ")+
+ geom_hline(yintercept=2, linetype="dashed", 
+                color = "red", size=.5)
 
-#make the lists numeric so the results can be graphed
-results$nutrient_concentration <- as.numeric(unlist(results$nutrient_concentration))
+```
+
+```{r}
+#use pmap to run through the data set and create a new column with the nutrient_conc function output 
+#results$nutrient_concentration = pmap(list(land_area = results$land_area, application_rate = results$fert_application), #nutrient_conc)
 
 #use pmap to run through the data set and create a new column with the runoff_rates function output
 results$water_quality = pmap(list(land_area = results$land_area, application_rate = results$fert_application, precipitation = results$precipitation), runoff_rates)
 
 #make the lists numeric so the results can be graphed
 results$water_quality <- as.numeric(unlist(results$water_quality))
-
-#graph results with the NJ EPA water quality parameter as a dotted red line
-ggplot(results, aes(x = nutrient_concentration, y = water_quality))+
-  geom_point()+labs(x="nutrient concentration on farm land (mg/L)", y="runoff water quality", title = "Runoff water quality based on monthly sample rain events in NJ")+
- geom_hline(yintercept=2, linetype="dashed", 
-                color = "red", size=.5)
-
 ```
 
