@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(testthat)
+library(devtools)
 library(tidyverse)
 library(purrr)
 
@@ -49,17 +50,6 @@ ggplot(results, aes(x = n_concentration, y = runoff_rate))+
 ```
 
 ```{r}
-#use pmap to run through the data set and create a new column with the nutrient_conc function output 
-#results$nutrient_concentration = pmap(list(land_area = results$land_area, application_rate = results$fert_application), #nutrient_conc)
-
-#use pmap to run through the data set and create a new column with the runoff_rates function output
-results$water_quality = pmap(list(land_area = results$land_area, application_rate = results$fert_application, precipitation = results$precipitation), runoff_rates)
-
-#make the lists numeric so the results can be graphed
-results$water_quality <- as.numeric(unlist(results$water_quality))
-```
-
-```{r}
-
+test_dir("tests")
 ```
 
